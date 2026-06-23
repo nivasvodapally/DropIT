@@ -1,0 +1,486 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+<title>Drop It | Wishlist</title>
+<style>
+    body {
+        margin: 0;
+        background-image: url(./assets/wishlist-bg.png);
+        background-size: cover;
+        width: auto;
+        height: 300px;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: "Quicksand", sans-serif;        
+        background-color: #ffffff;
+        padding: 20px;
+    }
+
+    #wishlist-items {
+        margin-top: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: left;
+        gap: 20px;
+    }
+
+    .wishlist-item {
+        background-color:  #F3FAF5;
+        color: #000;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 200px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .wishlist-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .wishlist-name {
+        color: #000;
+        font-size: 16px;
+        margin: 0 0 5px;
+    }
+
+    .wishlist-price {
+        font-size: 16px;
+        color: #888;
+        margin: 0;
+    }
+
+    .wishlist-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .wishlist-delete,
+    .wishlist-add-to-cart {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .wishlist-delete {
+        color: #e74c3c;
+    }
+
+    .wishlist-add-to-cart {
+        background-color: #DEF9EC;
+        color: #3BB77E;
+        font-size: 12px;
+        border: none;
+        padding: 5px 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wishlist-add-to-cart i {
+        margin-right: 5px;
+    }
+
+    #notification {
+        position: fixed;
+        top: 150px;
+        width: 94%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        background-color: #3bb77d6b;
+        color: white;
+        padding: 10px 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+</style>
+</head>
+<body>
+    <div id="above-bar"></div>
+
+<div id="navbar"></div>
+<div id="bottom-bar"></div>
+<div id="wishlist-items"></div>
+<div id="notification"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const wishlistItems = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const wishlistContainer = document.getElementById('wishlist-items');
+
+        wishlistItems.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.classList.add('wishlist-item');
+
+            listItem.innerHTML = `
+                <img src="./assets/${item.image}" alt="${item.name}" class="wishlist-image">
+                <p class="wishlist-name">${item.name}</p>
+                <p class="wishlist-price">₹${item.price}</p>
+                <div class="wishlist-actions">
+                    <button class="wishlist-add-to-cart" onclick="addToCart('${item.name}', '${item.image}', ${item.price})">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="wishlist-delete" onclick="removeFromWishlist('${item.name}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+
+            wishlistContainer.appendChild(listItem);
+        });
+    });
+
+    function removeFromWishlist(productName) {
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        wishlist = wishlist.filter(item => item.name !== productName);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        location.reload(); 
+    }
+
+    function addToCart(productName, productImage, productPrice) {
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+
+        if (existingItemIndex > -1) {
+            cartItems[existingItemIndex].quantity += 1;
+        } else {
+            cartItems.push({
+                name: productName,
+                image: `./assets/${productImage}`,
+                price: productPrice,
+                quantity: 1
+            });
+        }
+
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        updateCartQuantityNavbar();
+        showNotification('Item added to cart');
+    }
+
+    function updateCartQuantityNavbar() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const cartQuantityNum = document.getElementById('cart-quantity');
+        let totalQuantity = 0;
+
+        cartItems.forEach(item => {
+            totalQuantity += item.quantity;
+        });
+
+        if (totalQuantity > 0) {
+            cartQuantityNum.textContent = totalQuantity;
+            cartQuantityNum.style.display = 'inline-block';
+        } else {
+            cartQuantityNum.style.display = 'none';
+        }
+    }
+
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    }
+</script>
+
+<script src="./navbar.js"></script>
+<script src="footer.js"></script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Drop It | Wishlist</title>
+<style>
+    body {
+        margin: 0;
+        background-image: url(./assets/wishlist-bg.png);
+        width: 100%;
+        height: 400px;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: "Quicksand", sans-serif;
+        background-color: #ffffff;
+        padding: 20px;
+        position: relative;
+    }
+
+    .wishlist-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 48px;
+        font-weight: bold;
+        color: #000000;
+    }
+    .wishlist-subtitle {
+        position: absolute;
+        top:40%;
+        left: 15%;
+        transform: translate(-50%, -50%);
+        font-size: 18px;
+        font-weight: 500;
+        color: #000000;
+    }
+
+    .wishlist-container {
+        margin-top: 350px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .wishlist-header {
+        gap: 200px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid #ddd;
+        background-color: #F3FAF5;
+        color: #000;
+        margin-bottom: 10px;
+    }
+
+    .wishlist-item {
+        gap: 200px;
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        color: #000;
+        margin-bottom: 10px;
+    }
+
+    .wishlist-header {
+        width: 95%;
+        font-weight: bold;
+    }
+
+    .wishlist-product {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+    }
+
+    .wishlist-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .wishlist-name {
+        color: #000;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .wishlist-weight {
+        font-size: 0.9em;
+        margin-top: 10px;
+        color: #555;
+        margin: 0;
+    }
+
+    .wishlist-price {
+        font-size: 18px;
+        font-weight: 600;
+        color: #3BB77E;
+        flex: 1;
+        text-align: left;
+    }
+
+    .wishlist-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex: 1;
+    }
+
+    .wishlist-delete,
+    .wishlist-add-to-cart {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wishlist-delete {
+        color: #e74c3c;
+    }
+
+    .wishlist-add-to-cart {
+        background-color: #DEF9EC;
+        color: #3BB77E;
+        font-size: 12px;
+        border: none;
+        padding: 5px 15px;
+    }
+
+    .wishlist-add-to-cart i {
+        margin-right: 5px;
+    }
+
+    #notification {
+        position: fixed;
+        top: 150px;
+        width: 94%;
+        text-align: center;
+        background-color: #3bb77d6b;
+        color: white;
+        padding: 10px 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+    <div id="navbar"></div>
+
+    <div class="wishlist-subtitle">Home/ Wishlist</div>
+    <div class="wishlist-title">Wishlist</div>
+    <div class="wishlist-container">
+        <div class="wishlist-header">
+            <div class="wishlist-product">Product</div>
+            <div class="wishlist-price" style="color: #000;">Price</div>
+            <div class="wishlist-actions">Action</div>
+        </div>
+        <div id="wishlist-items"></div>
+    </div>
+    <div id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const wishlistContainer = document.getElementById('wishlist-items');
+
+            wishlistItems.forEach(item => {
+                const listItem = document.createElement('div');
+                listItem.classList.add('wishlist-item');
+
+                listItem.innerHTML = `
+                    <div class="wishlist-product">
+                        <img src="./assets/${item.image}" alt="${item.name}" class="wishlist-image">
+                        <div>
+                            <p class="wishlist-name">${item.name || ''}</p>
+                            <p class="wishlist-weight">${item.weight || ''}</p>
+                        </div>
+                    </div>
+                    <div class="wishlist-price">₹${item.price}</div>
+                    <div class="wishlist-actions">
+                        <button class="wishlist-add-to-cart" onclick="addToCart('${item.name}', '${item.image}', ${item.price})">
+                            <i class="fas fa-shopping-cart"></i> Cart
+                        </button>
+                        <button class="wishlist-delete" onclick="removeFromWishlist('${item.name}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                wishlistContainer.appendChild(listItem);
+            });
+        });
+
+        function removeFromWishlist(productName) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.filter(item => item.name !== productName);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            location.reload(); 
+        }
+
+        function addToCart(productName, productImage, productPrice) {
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+
+            if (existingItemIndex > -1) {
+                cartItems[existingItemIndex].quantity += 1;
+            } else {
+                cartItems.push({
+                    name: productName,
+                    image: `./assets/${productImage}`,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartQuantityNavbar();
+            showNotification('Item added to cart');
+        }
+
+        function updateCartQuantityNavbar() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartQuantityNum = document.getElementById('cart-quantity');
+            let totalQuantity = 0;
+
+            cartItems.forEach(item => {
+                totalQuantity += item.quantity;
+            });
+
+            if (totalQuantity > 0) {
+                cartQuantityNum.textContent = totalQuantity;
+                cartQuantityNum.style.display = 'inline-block';
+            } else {
+                cartQuantityNum.style.display = 'none';
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+
+    <script src="./navbar.js"></script>
+    <script src="footer.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyX95Pp5Kdh_u6Gv_BSRYuu4jSt3dZjJo&libraries=places"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<title>Drop It</title>
+<style>
+body {
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    flex-direction: column;
+}
+
+.header {
+    background-image: url('assets/profile-bg.png');
+    height: 100px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 180px;
+    text-align: center;
+    padding: 20px;
+}
+
+.header h1 {
+    margin-top: 40px;
+    font-size: 24px;
+}
+
+.container {
+    width: 1340px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgb(0, 0, 0, 0.8);
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow: hidden;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding-top: 20px;
+    flex-shrink: 0;
+}
+
+.sidebar-box {
+    padding: 20px;
+    height: 100%;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar-menu li i {
+    margin-right: 10px;
+    color: #686767;
+}
+
+.sidebar-menu li img {
+    margin-right: 10px;
+    width: 20px; 
+    height: 20px;
+}
+.sidebar-menu li:hover {
+    background-color: #e0e0e0;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.vertical-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #3BB77E;
+}
+
+.form-container {
+    margin-top: 40px;
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.form-row {
+    font-family: "Quicksand", sans-serif;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info-wrap {
+    font-family: "Quicksand", sans-serif;
+
+    position: relative;
+    width: calc(50% - 20px);
+    cursor: text;
+}
+
+.info-wrap input,
+.info-wrap select {
+    width: 100%;
+    padding: 10px;
+    color: black;
+
+    padding-right: 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif; 
+}
+
+.info-wrap input::placeholder,
+.info-wrap select option {
+    font-family: "Quicksand", sans-serif; 
+}
+
+.info-wrap .edit-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    justify-content: right;
+    align-items: right;
+    text-align: right;
+    color: #3BB77E;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+button.save {
+    background-color: #3BB77E;
+    color: white;
+    
+}
+.info-wrap input:focus,
+.info-wrap select:focus {
+    outline: none;
+    border-color: #3BB77E;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main-content {
+        align-items: flex-start;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .info-wrap {
+        width: 100%;
+    }
+
+    .edit-icon {
+        margin-top: 10px;
+    }
+}
+
+.current {
+    color: #3BB77E !important;
+    font-weight: 500;
+}
+
+.current img {
+    filter: invert(45%) sepia(60%) saturate(350%) hue-rotate(100deg) brightness(90%) contrast(95%);
+}
+
+</style>
+</head>
+
+<body>
+    <div id="above-bar"></div>
+    <div id="navbar"></div>
+    <div id="bottom-bar"></div>
+
+    <div class="header">
+        <h1>User Dashboard</h1>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="profile.html" class="sidebar-buttons"><img src="assets/dashboard.png" alt="Dashboard"> Dashboard</a></li>
+                <li><a href="personal-info.html" class="sidebar-buttons"><img src="assets/person.png" alt="Personal Info"> Personal Info</a></li>
+                <li><a href="payments.html" class="sidebar-buttons"><img src="assets/pay.png" alt="Payment Method"> Payment Method</a></li>
+                <li><a href="orders.html" class="sidebar-buttons"><img src="assets/orders-dashboard.png" alt="Order"> Order</a></li>
+                <li><a href="wishlist.html" class="sidebar-buttons"><img src="assets/wishlist.png" alt="Wishlist"> Wishlist</a></li>
+                <li><a href="address.html" class="sidebar-buttons"><img src="assets/address.png" alt="Address"> Address</a></li>
+                <li><a href="change-password.html" class="sidebar-buttons"><img src="assets/password.png" alt="Change Password"> Change Password</a></li>
+                <li><a href="logout.html" class="sidebar-buttons"><img src="assets/log-in.png" alt="Logout"> Logout</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="vertical-line"></div>
+            <div class="form-container">
+                <form>
+                    <div class="form-row">
+                        <div class="info-wrap">
+                            <input type="text" placeholder="First Name*" required>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                        </div>
+                        <div class="info-wrap">
+                            <input type="text" placeholder="Last Name*" required>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="info-wrap">
+                            <input type="email" placeholder="Email Address*" required>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                        </div>
+                        <div class="info-wrap">
+                            <input type="tel" placeholder="Phone*" required>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="info-wrap">
+                            <input type="text" placeholder="Address*" required>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                        </div>
+                        <div class="info-wrap">
+                            <input type="text" placeholder="Postal Code*" required>
+                            <i class="fas fa-pencil-alt edit-icon"></i>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="info-wrap">
+                            <select required>
+                                <option value="" disabled selected>City*</option>
+                                <option value="City1">Hanamkonda</option>
+                                <option value="City2">Warangal</option>
+                                <option value="City3">Kazipet</option>
+                            </select>
+                        </div>
+                        <div class="info-wrap">
+                            <select required>
+                                <option value="" disabled selected>Country*</option>
+                                <option value="Country1">India</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row" style="justify-content: flex-start;">
+                        <button type="submit" class="save">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function setActivePage() {
+        const currentPage = window.location.pathname.split("/").pop();
+        const links = document.querySelectorAll('.sidebar-buttons');
+
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage) {
+                link.classList.add('current');
+            } else {
+                link.classList.remove('current');
+            }
+        });
+    }
+
+    setActivePage();
+
+    document.querySelectorAll('.info-wrap').forEach(wrapper => {
+        wrapper.addEventListener('click', function() {
+            const input = wrapper.querySelector('input, select');
+            if (input) input.focus();
+        });
+    });
+</script>
+
+<script src="./navbar.js"></script>
+
+</body>
+</html>

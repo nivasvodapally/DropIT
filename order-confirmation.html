@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Drop It | Order Confirmation</title>
+<style>
+    .tick-icon {
+        margin-left: 750px;
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        margin-top: 20px;
+        height: 7%;
+        transform: translateX(-5%);
+    }
+    .order-details {
+        text-align: center;
+        padding: 20px;
+        margin: 20px;
+        margin-top: 150px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+        color: black;
+        position: relative;
+        z-index: 0;
+    }
+    .order-details h1 {
+        color: #44b567;
+    }
+    .order-details .order-info {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    .order-info div {
+        min-width: 150px;
+        padding: 12px;
+        border: 1px solid #ededed;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        width: 600px;
+        height: 62px;
+    }
+
+    .order-info div p {
+        font-size: 16px;
+        color: black;
+    }
+
+    .payment-time {
+        margin-top: 10px;
+    }
+    .order-info .payment-sender {
+        width: 700px;
+        color: black;
+    }
+    .scalloped-edge {
+        width: 100%;
+        height: 20px;
+        background: url('scalloped-edge.png') repeat-x;
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+    }
+</style>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script src="navbar.js"></script>
+
+    <div class="tick-icon">
+        <img src="images/tick-circle.png" alt="tick" />
+    </div>
+    
+    <div class="order-details">
+        <h1>Order Placed!</h1>
+        <h2>Total Payment</h2>
+        <h1 id="orderTotal"></h1>
+        <div class="order-info">
+            <div>
+                <p><strong>Order Number</strong>: 00085752257</p>
+            </div>
+            <div>
+                <p class="payment-time"><strong>Payment Time</strong>: <span id="paymentTime"></span></p>
+            </div>
+        </div>
+        <div class="order-info">
+            <div class="payment-sender">
+                <p><strong>Payment Method</strong>: <span id="paymentMethod"></span></p>
+            </div>
+            <div class="payment-sender">
+                <p><strong>Sender Name</strong>: Phani Krishna</p>
+            </div>
+        </div>
+        <div class="scalloped-edge"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethod = localStorage.getItem('paymentMethod');
+            const totalDue = localStorage.getItem('totalDue');
+            const paymentTime = localStorage.getItem('paymentTime');
+
+            document.getElementById('paymentMethod').textContent = paymentMethod;
+            document.getElementById('orderTotal').textContent = totalDue;
+            document.getElementById('paymentTime').textContent = paymentTime;
+        });
+    </script>
+        <script src="footer.js"></script>
+
+</body>
+</html>

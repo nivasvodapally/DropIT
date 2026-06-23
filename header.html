@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drop It</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .hero-section {
+      background-image: url('./images/hero\ bg.png');
+      background-color: #FFFCEB;
+      margin-top: 130px;
+      background-size: cover;
+      background-position: center;
+      padding: 60px 0;
+      color: #3BB77E;
+      text-align: center;
+      position: relative;
+      height: 485px;
+    }
+
+    .hero-text {
+      margin: 0 20px;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+      text-align: left;
+      margin-top: 60px;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5em;
+      margin-top: 0;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .hero-subtext {
+      margin: 0 20px;
+      position: relative;
+      z-index: 2;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .hero-subtext p {
+      font-size: 1.2em;
+      color: #838383;
+    }
+
+    .hero-image {
+      position: absolute;
+      right: 10%;
+      bottom: 10%;
+      z-index: 1;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .email-subscription {
+      display: flex;
+      margin-left: 20px; /* Adjusted margin for better alignment */
+    }
+
+    .email-subscription input[type="email"] {
+      padding: 10px;
+      font-size: 1em;
+      font-family: "Quicksand", sans-serif;
+      color: #000000;
+      border: 0;
+      border-radius: 0;
+      width: 300px; /* Adjusted width */
+      height: 40px;
+      outline: none;
+    }
+
+    .email-subscription button {
+      padding: 10px;
+      font-size: 1em;
+      font-family: "Quicksand", sans-serif;
+      height: 40px; /* Adjusted height */
+      width: 120px;
+      border: 0;
+      background-color: #3BB77E;
+      color: white;
+      border-radius: 0;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .email-subscription button:hover {
+      background-color: #339966;
+    }
+
+    style    .above-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f8f8f8;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .above-navbar a {
+      text-decoration: none;
+      color: #555;
+      margin: 0 10px;
+    }
+
+    /* Additional CSS for navbar and sub-navbar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 40;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .header .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #000000;
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar .search-bar {
+      position: center;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar .search-bar input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .navbar .search-bar button[type="submit"] {
+      background-color: #3BB77E;
+      color: #ffffff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      outline: none;
+    }
+
+      .navbar {
+          display: flex;
+          align-items: center;
+      }
+
+      .search-bar {
+          display: flex;
+          align-items: center;
+          margin-left: 20px; /* Moved left */
+          border: 1px solid #ccc;
+          padding: 5px;
+          border-radius: 5px;
+      }
+
+      .search-bar .all-categories {
+          text-decoration: none;
+          color: #333;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          padding: 0 10px;
+      }
+
+      .search-bar .separator {
+          margin: 0 10px;
+          color: #ccc;
+      }
+
+      .search-bar input[type="text"] {
+          padding: 8px;
+          width: 200px;
+          border: none;
+          font-size: 0.9rem;
+          outline: none;
+      }
+
+      .search-bar button {
+          background-color: #4CAF50;
+          border: none;
+          padding: 8px 12px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+      .search-bar button img {
+          width: 20px;
+          height: auto;
+          vertical-align: middle;
+      }
+
+      .navbar a {
+          margin-right: 15px;
+          text-decoration: none;
+          color: #3BB77E;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+      }
+
+      .navbar a img {
+          margin-right: 5px;
+          width: 20px;
+          height: auto;
+          vertical-align: middle;
+      }
+
+      .sub-navbar {
+          background-color: #3BB77E;
+          padding: 10px 0;
+      }
+
+      .sub-navbar a {
+          text-decoration: none;
+          color: #333;
+          font-size: 0.9rem;
+          padding: 10px 20px;
+          display: inline-block;
+      }
+
+
+    .explore-section,
+    .featured-section {
+      padding: 40px 20px;
+      background-color: #ffffff;
+      margin-top: 20px;
+    }
+
+    .explore-buttons,
+    .featured-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .explore-buttons button,
+    .featured-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #3BB77E;
+      background-color: #ffffff;
+      color: #3BB77E;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .explore-buttons button:hover,
+    .featured-buttons button:hover {
+      background-color: #3BB77E;
+      color: #ffffff;
+    }
+
+    .categories {
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow-x: auto;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .category-list {
+      display: flex;
+      gap: 20px;
+    }
+
+    .category-item {
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-item img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .arrow {
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .arrow:hover {
+      background-color: #f0f0f0;
+    }
+
+    .arrow i {
+      font-size: 0.8em;
+    }
+
+    .product-list {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .product-item {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .product-item img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .product-name-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .product-name-wrapper p {
+      font-weight: bold;
+    }
+
+    .product-rating {
+      color: #3BB77E;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .add-to-cart {
+      background-color: #3BB77E;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart:hover {
+      background-color: #339966;
+    }
+
+    .heart-icon {
+      color: #FF3333;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="above-navbar">
+    <a href="#">Account</a>
+    <a href="#">Track order</a>
+    <div class="support-link">
+      <a href="support.html"><img src="images/Call.png" alt="24/7 Support" width="20"> 24/7 support center</a>
+    </div>
+  </section>
+
+  <header class="header">
+
+      
+    <a href="index.html" class="logo"><img src="images/logo.png" alt="Drop IT" height="30"> DROPIT</a>
+<nav class="location">
+    <a href="#" class="location-link"></a>
+    <img src="images/bx-current-location.svg" alt="location" width="25">
+</nav>
+    <nav class="navbar">
+      <div class="search-bar">
+        <a href="categories.html" class="all-categories">All Categories</a>
+        <img src="images/down green.svg" alt="Down Arrow" class="down-arrow">
+        <input type="text" placeholder="Search...">
+        <button type="submit"><img src="images/Search-btn.png" alt="Search Icon" width="25"></button>
+      </div>
+      <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist" width="20"> </a>
+      <a href="cart.html"><img src="images/cart.png" alt="My Cart" width="20">  </a>
+      <a href="login.html"><img src="images/Profile.png" alt="Signup Logo" width="20">  </a>
+    </nav>
+  </header>
+
+  <nav class="sub-navbar">
+    <div class="sub-navbar-center">
+      <a href="index.html"><img src="images/home.png" alt="Home" width="20"> all categories</a>
+      
+    
+      <a href="index.html"><img src="images/home.png" alt="Home" width="20"> Home</a>
+      <a href="hot-deals.html"><img src="images/hot deals.png" alt="Hot Deals" width="20"> Hot Deals</a>
+      <a href="new-products.html"><img src="images/megaphone(new products).png" alt="New Products" width="20"> New Products</a>
+    </div>
+  </nav>
+
+  <div class="hero-section">
+    <div class="hero-text">
+      <h1>Don't miss amazing<br>grocery deals.</h1>
+      <div class="hero-subtext">
+        <p>Save up to 50% off on your first order</p>
+      </div>
+      <div class="email-subscription">
+        <img src="images/li_send.png" alt="send">
+        <input type="email" placeholder="Enter your email address">
+        <button>Subscribe</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="images/hero.png" alt="Grocery Deals">
+    </div>
+  </div>
+
+  <div class="explore-section">
+    <div class="explore-header">
+      <h2>Explore</h2>
+      <div class="explore-buttons">
+        <button class="explore-button">All</button>
+        <button class="explore-button">Vegetables</button>
+        <button class="explore-button">Fruits</button>
+        <button class="explore-button">Coffee & Teas</button>
+        <button class="explore-button">Meat</button>
+      </div>
+    </div>
+    <div class="categories">
+      <button class="arrow left-arrow"><i class="fas fa-arrow-left"></i></button>
+      <div class="category-list">
+        <div class="category-item" style="background-color: #FEEFEA;">
+          <img src="images/fruits&Veggies.png" alt="Fruits & Vegetables">
+          <p>Fruits & Vegetables</p>
+          <span>20 Items</span>
+        </div>
+        <div class="category-item" style="background-color: #FFF3FF;">
+          <img src="images/masala.png" alt="Masala & Dry Fruits">
+          <p>Masala & Dry Fruits</p>
+          <span>220 Items</span>
+        </div>
+        <div class="category-item" style="background-color: #F2FCE4;">
+          <img src="images/frozen.png" alt="Frozen Food & Ice Creams">
+          <p>Frozen Food & Ice Creams</p>
+          <span>10 Items</span>
+        </div>
+        <div class="category-item" style="background-color: #FEEFEA;">
+          <img src="images/packed food.png" alt="Packaged Food">
+          <p>Packaged Food</p>
+          <span>40 Items</span>
+        </div>
+        <div class="category-item" style="background-color: #ECFFEC;">
+          <img src="images/cooldrinks.png" alt="Cool Drinks & Juices">
+          <p>Cool Drinks & Juices</p>
+          <span>23 Items</span>
+        </div>
+        <div class="category-item" style="background-color: #FFFCEB;">
+          <img src="images/electronics.png" alt="Electrical & Accessories">
+          <p>Electrical & Accessories</p>
+          <span>3 Items</span>
+        </div>
+        <div class="category-item" style="background-color: #DEF9EC;">
+          <img src="images/stationary.png" alt="Stationery & Crafts">
+          <p>Stationery & Crafts</p>
+          <span>9 Items</span>
+        </div>
+      </div>
+      <button class="arrow right-arrow"><i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div class="featured-section">
+    <div class="featured-header">
+      <h2>Featured Products</h2>
+      <div class="featured-buttons">
+        <button class="featured-button">All</button>
+        <button class="featured-button">Vegetables</button>
+        <button class="featured-button">Fruits</button>
+        <button class="featured-button">Coffee & Teas</button>
+        <button class="featured-button">Meat</button>
+      </div>
+    </div>
+    <div class="featured-products">
+      <button class="arrow left-arrow"><i class="fas fa-arrow-left"></i></button>
+      <div class="product-list">
+        <div class="product-item">
+          <img src="images/tomato.png" alt="Product 1">
+          <div class="product-name-wrapper">
+            <p>Tomato Local</p>
+            <i class="far fa-heart heart-icon" onclick="toggleWishlist(this, 'Tomato Local')"></i>
+          </div>
+          <span>1kg</span>
+          <div class="product-rating">
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star inactive"></i>
+          </div>
+          <div class="product-price-add">
+            <div class="product-price">₹ 60</div>
+            <button class="add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="product-item">
+          <img src="images/tomato.png" alt="Product 2">
+          <div class="product-name-wrapper">
+            <p>Ginger</p>
+            <i class="far fa-heart heart-icon" onclick="toggleWishlist(this, 'Ginger')"></i>
+          </div>
+          <span>200g</span>
+          <div class="product-rating">
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star"></i>
+            <i class="fas fa-star star inactive"></i>
+          </div>
+          <div class="product-price-add">
+            <div class="product-price">₹ 64</div>
+            <button class="add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add
+            </button>
+          </div>
+        </div>
+      </div>
+      <button class="arrow right-arrow"><i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

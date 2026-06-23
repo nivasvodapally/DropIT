@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Drop It | Login</title>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding-left: 400px;
+            background-color: white;
+            position: relative;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .user-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        .action-button, .otp-button {
+            font-family: 'Quicksand', sans-serif;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #3BB77E;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .action-button:hover, .otp-button:hover {
+            background-color: #2a8f62;
+        }
+        .signup {
+            font-family: 'Quicksand', sans-serif;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+        .signup-button {
+            color: #007BFF;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .signup-button:hover {
+            text-decoration: underline;
+        }
+        .message {
+            text-align: center;
+            font-size: 16px;
+            color: red;
+            margin-bottom: 10px;
+        }
+        .otp-container {
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .otp-input {
+            width: calc(100% / 6 - 10px);
+            margin-right: 5px;
+            text-align: center;
+            font-size: 1em;
+        }
+        .otp-input:last-child {
+            margin-right: 0;
+        }
+        .bottom-right-img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40%;
+            max-width: 1000px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        //firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5qbz95la3YacBFiCJoYFQQ5xs1Ob0Psc",
+            authDomain: "otp-gen-4a87e.firebaseapp.com",
+            projectId: "otp-gen-4a87e",
+            storageBucket: "otp-gen-4a87e.appspot.com",
+            messagingSenderId: "31875597094",
+            appId: "1:31875597094:web:4f146c47fb6e9cbb0e77e7",
+            measurementId: "G-Z2QPMM3DPE"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        function requestOTP() {
+            var mobileNumber = document.getElementById('mobile').value;
+            if (!mobileNumber) {
+                document.getElementById('message').innerText = 'Please enter a mobile number';
+                return;
+            }
+            var formattedNumber = mobileNumber.startsWith('+91') ? mobileNumber : `+91${mobileNumber}`;
+
+            if (window.recaptchaVerifier) {
+                grecaptcha.reset(window.recaptchaWidgetId);
+            }
+
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'normal',
+                'callback': function(response) {
+                    sendOTP(formattedNumber);
+                },
+                'expired-callback': function() {
+                    document.getElementById('message').innerText = 'ReCAPTCHA expired. Please try again.';
+                }
+            });
+
+            window.recaptchaVerifier.render().then(function(widgetId) {
+                window.recaptchaWidgetId = widgetId;
+            }).catch(function(error) {
+                console.error('Error rendering reCAPTCHA:', error);
+                document.getElementById('message').innerText = error.message;
+            });
+        }
+
+        function sendOTP(formattedNumber) {
+            firebase.auth().signInWithPhoneNumber(formattedNumber, window.recaptchaVerifier)
+                .then(function(confirmationResult) {
+                    window.confirmationResult = confirmationResult;
+                    document.getElementById('message').innerText = 'OTP sent. Please check your phone.';
+                    document.getElementById('otp-container').style.display = 'flex';
+                })
+                .catch(function(error) {
+                    console.error('Error during signInWithPhoneNumber:', error);
+                    document.getElementById('message').innerText = error.message;
+                });
+        }
+
+        function verifyOTP() {
+            var otp = '';
+            for (var i = 1; i <= 6; i++) {
+                otp += document.getElementById('otp' + i).value;
+            }
+
+            if (otp.length === 6) {
+                window.confirmationResult.confirm(otp).then(function(result) {
+                    var user = result.user;
+                    document.getElementById('message').innerText = 'OTP verified successfully!';
+                }).catch(function(error) {
+                    console.error('Error during OTP verification:', error);
+                    document.getElementById('message').innerText = 'Invalid OTP. Please try again.';
+                });
+            } else {
+                document.getElementById('message').innerText = 'Please enter a 6-digit OTP.';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="above-bar"></div>
+    <div id="navbar"></div>
+    <div id="bottom-bar"></div>
+    <script src="navbar.js"></script>
+
+    <div class="user-container">
+        <div id="message" class="message"></div>
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" name="mobile" class="form" placeholder="Mobile Number" required id="mobile">
+            <button type="button" class="otp-button" onclick="requestOTP()">Get OTP</button>
+            <div id="recaptcha-container"></div>
+            <div class="otp-container" id="otp-container">
+                <input type="text" class="form otp-input" maxlength="1" id="otp1">
+                <input type="text" class="form otp-input" maxlength="1" id="otp2">
+                <input type="text" class="form otp-input" maxlength="1" id="otp3">
+                <input type="text" class="form otp-input" maxlength="1" id="otp4">
+                <input type="text" class="form otp-input" maxlength="1" id="otp5">
+                <input type="text" class="form otp-input" maxlength="1" id="otp6">
+                <button type="button" class="action-button" onclick="verifyOTP()">Verify</button>
+            </div>
+        </form>
+        <div class="signup">
+            Don't have an account? <a href="register.html" class="signup-button">Sign up</a>
+        </div>
+    </div>
+
+    <img src="./assets/register-bg.png" alt="register-image" class="bottom-right-img">
+</body>
+</html>

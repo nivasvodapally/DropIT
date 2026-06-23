@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Drop It | Register</title>
+<style>
+body {
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 160vh;
+    margin: 0;
+    background-color: white;
+    position: relative;
+    align-items: flex-start;
+    padding-left: 300px;
+    box-sizing: border-box;
+}
+.header {
+    display: flex;
+    align-items: center;
+    margin-top: 160px;
+}
+.header img {
+    width: 50px;
+}
+.header h1 {
+    font-size: 2em;
+    margin-left: 5px;
+
+    color: #333;
+}
+h2 {
+    font-size: 2em;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    color: #333;
+}
+form {
+    width: 100%;
+    color: #D9D9D9;
+    font-size: 12px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+form input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+form input[type="text"], input[type="tel"] ,input[type="email"], input[type="password"]{
+    color: #000000;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+input[type="checkbox"]{
+    width: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+form label {
+    font-size: 0.9em;
+    color: #333;
+}
+form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3BB77E;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 20px;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+form button:hover {
+    background-color: #2a8f62;
+}
+.alt-signup {
+    margin: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+}
+.alt-signup .separator {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+.alt-signup .separator::before,
+.alt-signup .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid #F5F5F5;
+    margin: 0 10px;
+}
+.alt-signup .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.alt-signup a {
+    text-decoration: none;
+    color: #333;
+    font-size: 12px;
+    font-weight: 900;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 48%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.alt-signup a:hover {
+    background-color: #f4f4f4;
+}
+.alt-signup a i {
+    margin-right: 10px;
+    font-size: 18px;
+
+}
+.signin {
+    margin-top: 20px;
+    margin-bottom: 60px;
+    font-weight: 500;
+    font-size: 14px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+}
+
+.signin a {
+    color: #007BFF;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+}
+.signin a:hover {
+    text-decoration: underline;
+}
+.bottom-right-img {
+    position: fixed;
+    bottom: 0;
+    width: 40%;
+    right: 0;
+    /* max-width: 1000px; */
+}
+</style>
+</head>
+<body>
+
+<div id="navbar"></div>
+
+
+<script src="navbar.js"></script>
+<div class="header">
+<img src="./assets/logo.png" alt="Logo">
+<h1>Drop It</h1>
+</div>
+
+<h2>Get Started Now</h2>
+<form action="register.php" method="post">
+    <p style="color:#000000; text-align: left; font-size: 14px; font-weight: 500;"> First Name <span style="color: red;">*</span></p>
+    <input type="text" name="name" placeholder="Enter your First Name" required>
+    <p style="color:#000000; text-align: left; font-size: 14px; font-weight: 500;"> Last Name <span style="color: red;">*</span></p>
+    <input type="text" name="name" placeholder="Enter your Last Name" required>
+    <p style="color:#000000; text-align: left; font-size: 14px; font-weight: 500;"> Phone Number <span style="color: red;">*</span></p>
+    <input type="tel" name="tel" placeholder="Enter your Phone Number" required>
+    <p style="color:#000000; text-align: left; font-size: 14px; font-weight: 500;">Email Address <span style="color: red;">*</span></p>
+    <input type="email" name="email" placeholder="Enter you Email address" required>
+    <p style="color:#000000; text-align: left; font-size: 14px; font-weight: 500;">Password <span style="color: red;">*</span></p>
+    <input type="password" name="password" placeholder="Password" required>
+    <div>
+        <input type="checkbox" name="terms" id="terms" required>
+        <label for="terms">I agree to the <a href="#">terms & policy</a></label>
+    </div>
+    <button type="submit" id="signup-button" disabled style="font-size: 14px; font-weight: 500;">Signup</button>
+</form>
+<div class="alt-signup">
+    <div class="separator"><span style="font-size: 12px;">or</span></div>
+    <div class="buttons">
+        <a href="google.com"><i class="fab fa-google"></i> Sign up with Google</a>
+        <a href="#"><i class="fab fa-apple"></i> Sign up with Apple</a>
+    </div>
+</div>
+    <div style="margin-bottom: 100px;" class="signin">
+    Have an account? <a href="login.html">Sign In</a>
+</div>
+    <img src="./assets/register-bg.png" alt="register-image" class="bottom-right-img">
+    <script>
+    document.getElementById('terms').addEventListener('change', function() {
+        document.getElementById('signup-button').disabled = !this.checked;
+    });
+</script>
+
+</body>
+</html>

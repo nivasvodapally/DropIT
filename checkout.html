@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/96c75676d8.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Drop It</title>
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        margin: 100px;
+        padding: 20px;
+    }
+    .order-summary, .payment-methods, .delivery-address {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .order-summary {
+        flex: 1;
+        margin-right: 20px;
+    }
+    .order-summary img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+    .order-summary .item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .order-summary .details {
+        flex: 1;
+    }
+    .order-summary .details .price {
+        color: #333;
+    }
+    .order-summary .summary {
+        margin-top: 20px;
+    }
+    .order-summary .summary div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .payment-methods, .delivery-address {
+        flex: 1;
+    }
+    .payment-methods h2, .delivery-address h2 {
+        margin-bottom: 20px;
+    }
+    .payment-methods .method, .delivery-address .method {
+        margin-bottom: 10px;
+    }
+    .payment-methods .method input, .delivery-address .method input {
+        margin-right: 10px;
+    }
+    .payment-methods .card-details {
+        display: none;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .payment-methods .card-details input {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .payment-methods .card-details .card-number {
+        display: flex;
+        justify-content: space-between;
+    }
+    .payment-methods .card-details .card-number input {
+        width: 30%;
+    }
+    .payment-methods button, .delivery-address button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3BB77E;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .payment-methods button:hover, .delivery-address button:hover {
+        background-color: #2a8f62;
+    }
+    .hidden {
+        display: none;
+    }
+    .back-arrow {
+        cursor: pointer;
+        color: #3BB77E;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+    }
+    .back-arrow:hover {
+        color: #2a8f62;
+    }
+    .contact-form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    .contact-form-group.two-column {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .contact-form-group.two-column > div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 48%;
+    }
+    .contact-form-group label {
+        margin-bottom: 5px;
+    }
+    .contact-form-group input {
+        width: 95%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .error {
+        color: red;
+        margin-bottom: 15px;
+    }
+    .progress {
+        display: flex;
+        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .progress .step {
+        display: flex;
+        margin-left: 25px;
+        align-items: center;
+    }
+
+    .progress .step i {
+        font-size: 20px;
+        margin-right: 10px;
+        color: #ccc;
+    }
+
+    .progress .step.completed i {
+        color: #3BB77E;
+    }
+
+    .progress .step.current i {
+        color: #3BB77E;
+    }
+
+    .progress .step span {
+        margin-left: 10px;
+    }
+
+    
+
+</style>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script src="navbar.js"></script>
+    <div class="container">
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div id="orderItems"></div>
+            <div class="summary">
+                <div>
+                    <span>Subtotal</span>
+                    <span id="subtotal"></span>
+                </div>
+                <div>
+                    <span>Sales tax (5%)</span>
+                    <span id="tax"></span>
+                </div>
+                <div>
+                    <span>Shipping Fee</span>
+                    <span>FREE</span>
+                </div>
+                <div>
+                    <span>Total due</span>
+                    <span id="totalDue"></span>
+                </div>
+            </div>
+        </div>
+        <div class="delivery-address">
+            <div class="progress">
+                <div class="step completed">
+                    <span>Delivery Address</span>
+                </div>
+                <div class="step tick">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="step">
+                    <span>Payment</span>
+                </div>
+            </div>
+            <h2>Contact Details</h2>
+            <div class="error hidden" id="error">Please fill out all required fields.</div>
+            <div class="contact-form-group two-column">
+                <div>
+                    <label>First Name</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div>
+                    <label>Last Name</label>
+                    <input type="text" id="lastName" required>
+                </div>
+            </div>
+            <div class="contact-form-group">
+                <label>Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="contact-form-group">
+                <label>Phone Number</label>
+                <input type="text" id="phone" required>
+            </div>
+            <div class="contact-form-group">
+                <label>Flat/House no.</label>
+                <input type="text" id="houseNo" required>
+            </div>
+            <div class="contact-form-group">
+                <label>Address</label>
+                <input type="text" id="address" required>
+            </div>
+            <div class="contact-form-group two-column">
+                <div>
+                    <label>City</label>
+                    <input type="text" id="city" required>
+                </div>
+                <div>
+                    <label>State</label>
+                    <input type="text" id="state" required>
+                </div>
+            </div>
+            <div class="contact-form-group">
+                <label>Postal Code</label>
+                <input type="text" id="postalCode" required>
+            </div>
+            <div class="contact-form-group">
+                <label>Famous Landmark</label>
+                <input type="text" id="landmark">
+            </div>
+            <div>
+                <input type="checkbox" id="sameAddress">
+                <label>My shipping and billing address are the same</label>
+            </div>
+            <button onclick="validateAndContinue()">Continue</button>
+        </div>
+        <div class="payment-methods hidden">
+            <div class="back-arrow" onclick="goToContactDetails()">
+                <i style="margin-right: 10px;" class="fas fa-arrow-left"></i> Back to Contact Details
+            </div>
+            <h2>Payment Methods</h2>
+            <div class="method">
+                <input type="radio" name="payment-method" id="pay-on-delivery" onclick="toggleCardDetails()">
+                <label for="pay-on-delivery">Pay on Delivery</label>
+            </div>
+            <div class="method">
+                <input type="radio" name="payment-method" id="credit-debit-card" onclick="toggleCardDetails()" checked>
+                <label for="credit-debit-card">Credit/Debit Cards</label>
+                <div class="card-details" id="cardDetails">
+                    <input type="text" placeholder="Card number" required>
+                    <div class="card-number">
+                        <input type="text" placeholder="MM / YY" required>
+                        <input type="text" placeholder="CVV" required>
+                    </div>
+                </div>
+            </div>
+            <div class="method">
+                <input type="radio" name="payment-method" id="bank-transfer" onclick="toggleCardDetails()">
+                <label for="bank-transfer">Direct Bank Transfer</label>
+            </div>
+            <div class="method">
+                <input type="radio" name="payment-method" id="other-methods" onclick="toggleCardDetails()">
+                <label for="other-methods">Other Payment Methods</label>
+            </div>
+            <button onclick="handlePayment()">Pay <span id="totalPay">₹0.00</span></button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartItems = JSON.parse(localStorage.getItem('checkoutItems')) || [];
+            const orderItemsContainer = document.getElementById('orderItems');
+            let subtotal = 0;
+
+            cartItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('item');
+
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="details">
+                        <p style="color:black";>${item.name}</p>
+                        <p class="price">₹${item.price.toFixed(2)} x ${item.quantity}</p>
+                    </div>
+                    <div>₹${(item.price * item.quantity).toFixed(2)}</div>
+                `;
+
+                orderItemsContainer.appendChild(itemElement);
+
+                subtotal += item.price * item.quantity;
+            });
+
+            const tax = subtotal * 0.05;
+            const totalDue = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+            document.getElementById('totalDue').textContent = `₹${totalDue.toFixed(2)}`;
+            document.getElementById('totalPay').textContent = `₹${totalDue.toFixed(2)}`;
+        });
+
+        function validateAndContinue() {
+            const requiredFields = document.querySelectorAll('.delivery-address input[required]');
+            let allFieldsFilled = true;
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFieldsFilled = false;
+                    field.style.borderColor = 'red';
+                } else {
+                    field.style.borderColor = '#ccc';
+                }
+            });
+
+            if (allFieldsFilled) {
+                document.querySelector('.error').classList.add('hidden');
+                goToPayment();
+            } else {
+                document.querySelector('.error').classList.remove('hidden');
+            }
+        }
+
+        function goToPayment() {
+            document.querySelector('.delivery-address').classList.add('hidden');
+            document.querySelector('.payment-methods').classList.remove('hidden');
+            updateProgress('payment');
+        }
+
+        function goToContactDetails() {
+            document.querySelector('.payment-methods').classList.add('hidden');
+            document.querySelector('.delivery-address').classList.remove('hidden');
+            updateProgress('contact');
+        }
+
+        function updateProgress(step) {
+            const steps = document.querySelectorAll('.progress .step');
+            steps.forEach(s => {
+                s.classList.remove('completed', 'current');
+            });
+            if (step === 'contact') {
+                steps[0].classList.add('completed');
+                steps[1].classList.add('current');
+                steps[2].classList.remove('completed');
+            } else if (step === 'payment') {
+                steps[0].classList.add('completed');
+                steps[1].classList.add('completed');
+                steps[2].classList.add('current');
+            }
+        }
+
+        function toggleCardDetails() {
+            const cardDetails = document.getElementById('cardDetails');
+            const isCardSelected = document.getElementById('credit-debit-card').checked;
+
+            if (isCardSelected) {
+                cardDetails.style.display = 'flex';
+            } else {
+                cardDetails.style.display = 'none';
+            }
+        }
+
+        function handlePayment() {
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked').nextElementSibling.textContent;
+            const totalDue = document.getElementById('totalPay').textContent;
+            const paymentTime = new Date().toLocaleString();
+            localStorage.setItem('paymentMethod', paymentMethod);
+            localStorage.setItem('totalDue', totalDue);
+            localStorage.setItem('paymentTime', paymentTime);
+            // Clear cart
+            localStorage.removeItem('checkoutItems');
+            window.location.href = 'order-confirmation.html';
+        }
+    </script>
+    <script src="footer.js"></script>
+</body>
+</html>
